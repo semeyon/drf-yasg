@@ -1,5 +1,6 @@
 import six
 
+import os
 import collections
 import logging
 import re
@@ -259,7 +260,7 @@ class Swagger(SwaggerDict):
             url = urlparse.urlparse(_url)
             assert url.netloc and url.scheme, "if given, url must have both schema and netloc"
             self.host = url.netloc
-            self.schemes = [url.scheme]
+            self.schemes = ['https'] if os.environ.get('DRF_YASG_FORCE_HTTPS', False) else [url.scheme]
 
         self.base_path = self.get_base_path(get_script_prefix(), _prefix)
         self.consumes = consumes
